@@ -1,4 +1,4 @@
-@include('header')
+@include('layouts.header')
 
 <div class="container">
     <h2 class="page-title">Онлайн запись на СТО</h2>
@@ -71,7 +71,7 @@
                 </div>
                 <div class="form-group">
                     <input type="date" name="appointment_date" id="appointmentDate" required 
-                           min="{{ date('Y-m-d', strtotime('+1 day')) }}" 
+                           min="{{ date('Y-m-d') }}" 
                            onchange="loadAvailableTimes()" class="date-input">
                 </div>
             </div>
@@ -181,4 +181,4 @@ function selectTime(time) {
 }
 </script>
 
-@include('footer')
+@include('layouts.footer')

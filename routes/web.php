@@ -11,6 +11,12 @@ Route::post('/booking', [BookingController::class, 'store']);
 Route::get('/api/available-times', [BookingController::class, 'getAvailableTimes']);
 
 // Админ маршруты
+Route::get('/admin', function() {
+    if (auth()->check()) {
+        return redirect('/admin/dashboard');
+    }
+    return redirect('/admin/login');
+});
 Route::get('/admin/login', [AdminController::class, 'loginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminController::class, 'login']);
 Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');

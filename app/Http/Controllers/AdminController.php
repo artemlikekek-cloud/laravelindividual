@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appointment;
-use App\Models\Service;
+use App\Services\AppointmentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+// Контроллер для административной панели
 class AdminController extends Controller
 {
+    public function __construct(
+        private AppointmentService $appointmentService
+    ) {}
+
     // Страница входа
     public function loginForm()
     {
@@ -45,28 +49,21 @@ class AdminController extends Controller
     // Дашборд
     public function dashboard()
     {
-        $appointments = Appointment::with('services')
-            ->orderBy('appointment_date', 'desc')
-            ->orderBy('appointment_time', 'desc')
-            ->paginate(20);
-
+        $appointments = $this->appointmentService->getAllAppointments(20);
         return view('admin.dashboard', compact('appointments'));
     }
 
     // Обновление статуса записи
     public function updateStatus(Request $request, $id)
     {
-        $appointment = Appointment::findOrFail($id);
-        $appointment->status = $request->input('status');
-        $appointment->save();
-
+        $this->appointmentService->updateStatus($id, $request->input('status'));
         return redirect()->back()->with('success', 'Статус обновлен');
     }
 
     // Удаление записи
     public function destroy($id)
     {
-        Appointment::findOrFail($id)->delete();
+        $this->appointmentService->deleteAppointment($id);
         return redirect()->back()->with('success', 'Запись удалена');
     }
 }

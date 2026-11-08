@@ -329,8 +329,8 @@ footer p {
 }
 
 .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--spacing-lg);
 }
 
@@ -343,6 +343,8 @@ footer p {
     transition: var(--transition);
     display: flex;
     gap: var(--spacing-md);
+    flex: 1 1 280px;
+    min-width: 280px;
 }
 
 .service-card:hover {
@@ -486,9 +488,14 @@ footer p {
 }
 
 .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--spacing-lg);
+}
+
+.form-grid .form-group {
+    flex: 1 1 250px;
+    min-width: 250px;
 }
 
 .submit-btn {
@@ -529,7 +536,12 @@ footer p {
     }
     
     .services-grid {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+    }
+    
+    .service-card {
+        flex: 1 1 auto;
+        min-width: 100%;
     }
     
     .summary-panel {
@@ -537,7 +549,12 @@ footer p {
     }
     
     .form-grid {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+    }
+    
+    .form-grid .form-group {
+        flex: 1 1 auto;
+        min-width: 100%;
     }
 }
 

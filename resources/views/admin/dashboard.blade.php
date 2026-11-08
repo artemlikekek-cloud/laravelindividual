@@ -1,4 +1,4 @@
-@include('header')
+@include('layouts.header')
 
 <div class="container">
     <h2>📊 Админ-панель - Все записи</h2>
@@ -79,4 +79,4 @@
     @endif
 </div>
 
-@include('footer')
+@include('layouts.footer')
