@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\AppointmentService;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,11 +47,58 @@ class AdminController extends Controller
         return redirect('/admin/login');
     }
 
-    // Дашборд
+    // Дашборд - только активные заказы
     public function dashboard()
     {
-        $appointments = $this->appointmentService->getAllAppointments(20);
+        $appointments = $this->appointmentService->getActiveAppointments(20);
         return view('admin.dashboard', compact('appointments'));
+    }
+
+    // Архив - все заказы с фильтрацией
+    public function archive(Request $request)
+    {
+        $query = $this->appointmentService->getAllAppointmentsQuery();
+        
+        // Фильтр по телефону
+        if ($request->filled('phone')) {
+            $query->where('client_phone', 'LIKE', '%' . $request->phone . '%');
+        }
+        
+        // Фильтр по email
+        if ($request->filled('email')) {
+            $query->where('client_email', 'LIKE', '%' . $request->email . '%');
+        }
+        
+        // Фильтр по статусу
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $appointments = $query->latest()->paginate(20);
+        
+        return view('admin.archive', compact('appointments'));
+    }
+
+    // Управление отзывами
+    public function reviews()
+    {
+        $reviews = Review::latest()->paginate(20);
+        return view('admin.reviews', compact('reviews'));
+    }
+
+    // Одобрить отзыв
+    public function approveReview($id)
+    {
+        $review = Review::findOrFail($id);
+        $review->update(['is_approved' => !$review->is_approved]);
+        return redirect()->back()->with('success', 'Статус отзыва обновлен');
+    }
+
+    // Удалить отзыв
+    public function deleteReview($id)
+    {
+        Review::findOrFail($id)->delete();
+        return redirect()->back()->with('success', 'Отзыв удален');
     }
 
     // Обновление статуса записи

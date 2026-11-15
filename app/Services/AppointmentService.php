@@ -69,4 +69,16 @@ class AppointmentService
     {
         return $this->appointmentRepository->getAllPaginated($perPage);
     }
+
+    // Получить только активные записи (pending, confirmed)
+    public function getActiveAppointments(int $perPage = 20)
+    {
+        return $this->appointmentRepository->getActiveAppointments($perPage);
+    }
+
+    // Получить query builder для всех записей (для фильтрации)
+    public function getAllAppointmentsQuery()
+    {
+        return $this->appointmentRepository->query();
+    }
 }

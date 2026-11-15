@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 Route::get('/', [BookingController::class, 'index']);
 Route::get('/booking', [BookingController::class, 'create']);
 Route::post('/booking', [BookingController::class, 'store']);
+Route::post('/reviews', [BookingController::class, 'storeReview']);
 Route::get('/api/available-times', [BookingController::class, 'getAvailableTimes']);
 
 // Админ маршруты
@@ -23,6 +24,10 @@ Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.lo
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard']);
+    Route::get('/archive', [AdminController::class, 'archive']);
+    Route::get('/reviews', [AdminController::class, 'reviews']);
+    Route::post('/reviews/{id}/approve', [AdminController::class, 'approveReview']);
+    Route::delete('/reviews/{id}', [AdminController::class, 'deleteReview']);
     Route::post('/appointments/{id}/status', [AdminController::class, 'updateStatus']);
     Route::delete('/appointments/{id}', [AdminController::class, 'destroy']);
 });

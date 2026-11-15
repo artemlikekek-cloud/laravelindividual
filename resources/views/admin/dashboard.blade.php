@@ -1,14 +1,20 @@
 @include('layouts.header')
 
 <div class="container">
-    <h2>📊 Админ-панель - Все записи</h2>
+    <div class="admin-header">
+        <h2>📊 Админ-панель - Активные записи</h2>
+        <div class="admin-nav">
+            <a href="/admin/archive" class="btn-archive">📦 Архив</a>
+            <a href="/admin/reviews" class="btn-reviews">⭐ Отзывы</a>
+        </div>
+    </div>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     @if($appointments->isEmpty())
-        <p style="margin: 2rem 0; text-align: center; color: #666;">Записей пока нет</p>
+        <p class="reviews-empty">Активных записей пока нет</p>
     @else
         <table>
             <thead>
@@ -48,9 +54,7 @@
                         <td>
                             <form method="POST" action="/admin/appointments/{{ $appointment->id }}/status">
                                 @csrf
-                                <select name="status" onchange="this.form.submit()" 
-                                        class="badge badge-{{ $appointment->status }}" 
-                                        style="border:none;cursor:pointer;">
+                                <select name="status" onchange="this.form.submit()" class="badge badge-{{ $appointment->status }} status-select">
                                     <option value="pending" {{ $appointment->status == 'pending' ? 'selected' : '' }}>Ожидает</option>
                                     <option value="confirmed" {{ $appointment->status == 'confirmed' ? 'selected' : '' }}>Подтверждена</option>
                                     <option value="completed" {{ $appointment->status == 'completed' ? 'selected' : '' }}>Завершена</option>
@@ -63,7 +67,7 @@
                                   onsubmit="return confirm('Удалить запись?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" style="background:#dc3545;padding:0.3rem 0.6rem;font-size:0.85rem;">
+                                <button type="submit" class="btn-delete-appointment">
                                     Удалить
                                 </button>
                             </form>
@@ -73,7 +77,7 @@
             </tbody>
         </table>
 
-        <div style="margin-top: 1.5rem;">
+        <div class="pagination-wrapper">
             {{ $appointments->links() }}
         </div>
     @endif

@@ -38,6 +38,22 @@ class AppointmentRepository implements AppointmentRepositoryInterface
             ->paginate($perPage);
     }
 
+    // Получить только активные записи (pending, confirmed)
+    public function getActiveAppointments(int $perPage = 20)
+    {
+        return Appointment::with('services')
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->orderBy('appointment_date', 'desc')
+            ->orderBy('appointment_time', 'desc')
+            ->paginate($perPage);
+    }
+
+    // Получить query builder для фильтрации
+    public function query()
+    {
+        return Appointment::with('services');
+    }
+
     public function findOrFail(int $id): Appointment
     {
         return Appointment::findOrFail($id);
