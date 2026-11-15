@@ -9,8 +9,7 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
-    sqlite3 \
-    libsqlite3-dev \
+    libpq-dev \
     nginx \
     supervisor
 
@@ -18,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_sqlite mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install pdo_pgsql pgsql mbstring exif pcntl bcmath gd
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -38,12 +37,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-script
 # Generate app key
 RUN php artisan key:generate --force
 
-# Create SQLite database
-RUN touch /app/database/database.sqlite
-
 # Set permissions
-RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache /app/database
-RUN chmod -R 775 /app/storage /app/bootstrap/cache /app/database
+RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+RUN chmod -R 775 /app/storage /app/bootstrap/cache
 
 # Configure nginx
 COPY docker/nginx.conf /etc/nginx/sites-available/default
