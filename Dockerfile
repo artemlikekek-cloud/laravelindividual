@@ -47,4 +47,4 @@ RUN chmod -R 775 /app/storage /app/bootstrap/cache /app/database
 EXPOSE 8080
 
 # Start server
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8080
+CMD php artisan migrate:fresh --force --seed && php artisan serve --host=0.0.0.0 --port=8080
