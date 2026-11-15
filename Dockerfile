@@ -27,8 +27,14 @@ WORKDIR /app
 # Copy application files
 COPY . /app
 
+# Create .env file before composer install
+RUN cp .env.example .env || echo "APP_KEY=" > .env
+
 # Install dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+
+# Generate app key
+RUN php artisan key:generate --force
 
 # Create SQLite database
 RUN touch /app/database/database.sqlite
