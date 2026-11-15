@@ -28,14 +28,8 @@ WORKDIR /app
 # Copy application files
 COPY . /app
 
-# Create .env file before composer install
-RUN cp .env.example .env || echo "APP_KEY=" > .env
-
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
-
-# Generate app key
-RUN php artisan key:generate --force
 
 # Set permissions
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
