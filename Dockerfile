@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     sqlite3 \
-    libsqlite3-dev
+    libsqlite3-dev \
+    nginx \
+    supervisor
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -43,8 +45,14 @@ RUN touch /app/database/database.sqlite
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache /app/database
 RUN chmod -R 775 /app/storage /app/bootstrap/cache /app/database
 
+# Configure nginx
+COPY docker/nginx.conf /etc/nginx/sites-available/default
+
+# Configure supervisor
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 # Expose port
 EXPOSE 8080
 
-# Start server
-CMD php artisan migrate:fresh --force --seed && php artisan serve --host=0.0.0.0 --port=8080
+# Start supervisor (manages nginx + php-fpm)
+CMD php artisan migrate:fresh --force --seed && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
