@@ -1072,3 +1072,94 @@ footer p {
         width: 100%;
     }
 }
+
+/* ============================================
+   Admin Login Page
+   ============================================ */
+
+body.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: var(--bg-secondary);
+}
+
+.login-container {
+    background: var(--bg-primary);
+    padding: var(--spacing-2xl);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 4px 20px var(--shadow-md);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    color: var(--text-primary);
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+}
+
+.login-container .form-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.login-container label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+}
+
+.login-container input {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    transition: var(--transition-fast);
+    font-family: var(--font-sans);
+}
+
+.login-container input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.login-container button {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    padding: var(--spacing-md);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    transition: var(--transition);
+    font-family: var(--font-sans);
+}
+
+.login-container button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+}
+
+.login-container button:active {
+    transform: translateY(0);
+}
+
+.alert-error {
+    background: rgba(220, 38, 38, 0.1);
+    color: var(--danger);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    font-size: var(--font-size-sm);
+}

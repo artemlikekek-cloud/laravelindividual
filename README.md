@@ -1,58 +1,199 @@
- <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚗 СТО - Система онлайн-записи
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Laravel](https://img.shields.io/badge/Laravel-11-red.svg)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.4-blue.svg)](https://php.net)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## About Laravel
+Веб-приложение для онлайн-записи в автосервис с административной панелью.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Возможности
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Для клиентов:
+- 📅 Онлайн-запись на обслуживание
+- 🔍 Просмотр услуг и цен
+- ⏰ Выбор удобного времени (с проверкой доступности)
+- 💬 Оставление отзывов
+- 📱 Адаптивный дизайн
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Для администратора:
+- 📊 Дашборд с активными записями
+- 📁 Архив всех записей
+- 🔎 Фильтрация по телефону/email/статусу
+- ✅ Управление статусами записей
+- ⭐ Модерация отзывов
+- 🗑️ Удаление записей
 
-## Learning Laravel
+## 🛠️ Технологии
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Backend:** Laravel 11, PHP 8.4
+- **Database:** PostgreSQL 15
+- **Frontend:** Blade Templates, Vanilla JavaScript
+- **Server:** Nginx + PHP-FPM (в Docker)
+- **Patterns:** Repository Pattern, Service Layer, MVC
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## ⚡ Быстрый старт
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### Требования:
+- PHP 8.2+
+- Composer
+- PostgreSQL 15+
+- Git
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Установка:
 
 ```bash
-composer require laravel/boost --dev
+# 1. Клонирование репозитория
+git clone https://github.com/artemlikekek-cloud/laravelindividual.git
+cd laravelindividual
 
-php artisan boost:install
+# 2. Установка зависимостей
+composer install
+
+# 3. Настройка окружения
+copy .env.example .env
+# ВАЖНО: Открой .env и укажи пароль от PostgreSQL!
+php artisan key:generate
+
+# 4. Создание базы данных в PostgreSQL
+# Открой pgAdmin и создай базу sto_db
+# ИЛИ через psql: CREATE DATABASE sto_db;
+
+# 5. Миграции и seed данные
+php artisan migrate:fresh --seed
+
+# 6. Запуск сервера
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Откройте в браузере: **http://127.0.0.1:8000**
 
-## Contributing
+## 🔐 Вход в админ-панель
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+После выполнения `migrate:fresh --seed` будет создан администратор:
 
-## Code of Conduct
+```
+URL: http://127.0.0.1:8000/admin/login
+Email: admin@sto.local
+Пароль: admin123
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 📚 Документация
 
-## Security Vulnerabilities
+- 📖 [Полная инструкция по установке](INSTALLATION.md)
+- 🎓 [Руководство для защиты проекта](ЗАЩИТА_ПРОЕКТА.md)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🗂️ Структура базы данных
 
-## License
+```
+users                  → Администраторы
+services               → Услуги СТО
+appointments           → Записи клиентов
+appointment_services   → Связь записей и услуг (Many-to-Many)
+working_hours          → График работы
+reviews                → Отзывы клиентов
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🏗️ Архитектура
+
+```
+app/
+├── Contracts/              # Интерфейсы (Repository Pattern)
+├── Repositories/           # Реализация работы с БД
+├── Services/               # Бизнес-логика
+│   ├── AppointmentService  # Создание/управление записями
+│   └── TimeSlotService     # Проверка доступности времени
+├── Http/Controllers/       # HTTP контроллеры
+│   ├── BookingController   # Клиентская часть
+│   └── AdminController     # Админ-панель
+└── Models/                 # Eloquent модели
+```
+
+## 🐳 Запуск через Docker
+
+```bash
+# Собрать образ
+docker build -t sto-app .
+
+# Запустить контейнер
+docker run -p 8080:8080 sto-app
+```
+
+Откроется на: **http://localhost:8080**
+
+## 🔧 Настройка базы данных
+
+Проект использует **PostgreSQL** в качестве основной БД.
+
+### Установка PostgreSQL:
+
+1. Скачай и установи: [postgresql.org](https://www.postgresql.org/download/windows/)
+2. Запомни пароль для пользователя `postgres`
+3. Создай базу данных:
+
+```sql
+CREATE DATABASE sto_db;
+```
+
+### Настрой `.env`:
+
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=sto_db
+DB_USERNAME=postgres
+DB_PASSWORD=ТвойПароль
+```
+
+Затем выполни миграции: `php artisan migrate:fresh --seed`
+
+## 🧪 Тестовые данные
+
+После `php artisan migrate:fresh --seed` создаются:
+
+- ✅ 10 услуг СТО (замена масла, шиномонтаж, и т.д.)
+- ✅ График работы (Пн-Пт: 9:00-18:00, Сб: 10:00-16:00)
+- ✅ 5 тестовых отзывов
+- ✅ Администратор (admin@sto.local / admin123)
+
+## 📱 Основные маршруты
+
+| URL | Описание |
+|-----|----------|
+| `/` | Главная страница |
+| `/booking` | Форма записи |
+| `/admin/login` | Вход в админ-панель |
+| `/admin/dashboard` | Активные записи |
+| `/admin/archive` | Архив всех записей |
+| `/admin/reviews` | Модерация отзывов |
+
+## 🛡️ Безопасность
+
+- ✅ CSRF защита на всех формах
+- ✅ Валидация всех входных данных
+- ✅ Bcrypt хеширование паролей
+- ✅ Middleware авторизация для админки
+- ✅ SQL Injection защита (Eloquent ORM)
+- ✅ XSS защита (Blade экранирование)
+
+## 🤝 Участие в разработке
+
+1. Fork проект
+2. Создайте feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit изменения (`git commit -m 'Add amazing feature'`)
+4. Push в branch (`git push origin feature/amazing-feature`)
+5. Откройте Pull Request
+
+## 📄 Лицензия
+
+Этот проект лицензирован под [MIT License](LICENSE).
+
+## 👨‍💻 Автор
+
+Создано для индивидуального проекта.
+
+---
+
+**Полная инструкция по установке:** [INSTALLATION.md](INSTALLATION.md)
+
+**Руководство для защиты:** [ЗАЩИТА_ПРОЕКТА.md](ЗАЩИТА_ПРОЕКТА.md)
